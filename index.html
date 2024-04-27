@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-signin-client_id"
+    content="457580471522-6qcfbiq79j210c20ol8anapo9vprle4m.apps.googleusercontent.com">
+  <title>Login Page</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://apis.google.com/js/api:client.js"></script>
+
+  <link rel="icon" type="image/x-icon" href="icons/favicon/favicon.ico">
+  <title>Dolores | JustiGuide</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <a href='https://www.justiguide.com'>
+    <div class="logo"></div>
+  </a>
+  <div class="side-container">
+    <a class="button active" id="chat">
+      <svg class="button-icon chat"></svg>
+    </a>
+    <!-- <a class="button" id="form">
+            <svg class="button-icon form"></svg>
+        </a> -->
+    <a class="button" id="user">
+      <svg class="button-icon user"></svg>
+    </a>
+  </div>
+  <!-- <div class="menu-container">
+        <a id="menu" class="button">
+            <svg class="button-icon menu"></svg>
+        </a>
+    </div> -->
+  <div class="bottom-container">
+    <a id="download" class="button" style="display: none;">
+      <svg class="button-icon download"></svg>
+    </a>
+    <a id="share" class="button" style="display: none;">
+      <svg class="button-icon share"></svg>
+    </a>
+    <a id="info" class="button" href="https://www.justiguide.com/faq">
+      <svg class="button-icon info"></svg>
+    </a>
+  </div>
+  <div class="chat-bar-container active">
+    <input type="text" id="user-input" placeholder="Enter your message">
+    <!-- <a class="chat-buttons" id="add">
+            <svg class="chat-icons add"></svg>
+        </a> -->
+    <a class="chat-buttons" id="send">
+      <svg class="chat-icons send"></svg>
+    </a>
+  </div>
+  <div class="chat-container active">
+    <div class="chat-messages">
+      <div class="bot-message">
+        <div class="bot-profile">
+          <svg class="bot-avatar"></svg>
+        </div>
+        <div class="message-bubble">
+          <p>Hi there! I'm here to assist you. How can I help you today?</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-container ">
+    <form id="immigrationForm">
+      <div id="header">
+        <h1>Immigration Form</h1>
+        <div class="sub-heading">Information about you</div>
+        <div id="progressBar">
+          <div id="progress"></div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="subsection">
+          <label for="firstName">First Name:</label>
+          <input type="text" id="firstName" name="firstName" required>
+          <label for="middleName">Middle Name:</label>
+          <input type="text" id="middleName" name="middleName">
+          <label for="lastName">Last Name:</label>
+          <input type="text" id="lastName" name="lastName" required>
+        </div>
+        <div class="subsection">
+          <div class="sub-heading">Residence in US</div>
+          <label for="street">Street Number & Name:</label>
+          <input type="text" id="street" name="street" required>
+          <label for="city">City:</label>
+          <input type="text" id="city" name="city" required>
+          <label for="state">State:</label>
+          <input type="text" id="state" name="state" required>
+          <label for="zipCode">Zip Code:</label>
+          <input type="text" id="zipCode" name="zipCode" required>
+          <label for="telephone">Telephone Number:</label>
+          <input type="tel" id="telephone" name="telephone" required>
+          <p style="margin-top: 10px;">Different Mailing Address</p>
+          <div class="toggle-switch">
+            <input type="checkbox" id="differentAddress" class="toggle-switch-checkbox">
+            <label for="differentAddress" class="toggle-switch-label">
+              <span class="toggle-switch-inner"></span>
+              <span class="toggle-switch-switch"></span>
+            </label>
+          </div>
+          <div id="mailingAddress" class="hidden">
+            <label for="mailingStreet">Street Number & Name:</label>
+            <input type="text" id="mailingStreet" name="mailingStreet">
+            <label for="mailingCity">City:</label>
+            <input type="text" id="mailingCity" name="mailingCity">
+            <label for="mailingState">State:</label>
+            <input type="text" id="mailingState" name="mailingState">
+            <label for="mailingZipCode">Zip Code:</label>
+            <input type="text" id="mailingZipCode" name="mailingZipCode">
+            <label for="mailingTelephone">Telephone Number:</label>
+            <input type="tel" id="mailingTelephone" name="mailingTelephone">
+          </div>
+        </div>
+        <div class="subsection">
+          <div class="sub-heading">General Information</div>
+          <div class="radio-group">
+            <input type="radio" id="male" name="gender" value="male">
+            <label for="male">Male</label>
+            <input type="radio" id="female" name="gender" value="female">
+            <label for="female">Female</label>
+          </div>
+        </div>
+      </div>
+      <div class="download-button-container">
+        <button id="next">Next</button>
+        <button id="submit" style="display: none;">Submit</button>
+      </div>
+    </form>
+    <form id="downloadForm" style="display: none;">
+      <input type="hidden" name="data">
+      <div class="download-button-container">
+        <button id="downloadButton">Download</button>
+      </div>
+    </form>
+  </div>
+  <div class="login-window" id="login-window">
+    <p class="greeting">
+      Welcome to JustiGuide!
+    <p class="sub-heading_user">
+      Continue to login with your Google Account.
+    </p>
+    </p>
+    <hr class="divider">
+    <div id="customBtn" class="customGPlusSignIn" onclick="startApp()">
+      <span class="icon"></span>
+      <span class="buttonText">Sign in with Google</span>
+    </div>
+  </div>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="script.js"></script>
+  <script>startApp()</script>
+</body>
+
+</html>
