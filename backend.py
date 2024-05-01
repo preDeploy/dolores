@@ -9,8 +9,8 @@ import os
 
 class Dolores():
     def __init__(self):
-        self.OPENAI_API_KEY = "sk-proj-QXFe5CZeHD46QaSpxAu9T3BlbkFJwsO2Dagn4kP20LRLtWGr"
-        self.OPENAI_ASSISTANT_ID = "asst_1l9QjbTLtJnMI3fEbZyf4Tc6"
+        self.OPENAI_API_KEY = ""
+        self.OPENAI_ASSISTANT_ID = ""
         self.user_input = ''
         self.response = ''
         self.flag = True
