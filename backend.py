@@ -9,7 +9,7 @@ import os
 
 class Dolores():
     def __init__(self):
-        self.OPENAI_API_KEY = "sk-proj-EI9DZONCHgrS7W5Flh2aT3BlbkFJLFLqN10iwIoEwv9R6YWh"
+        self.OPENAI_API_KEY = "sk-proj-QXFe5CZeHD46QaSpxAu9T3BlbkFJwsO2Dagn4kP20LRLtWGr"
         self.OPENAI_ASSISTANT_ID = "asst_1l9QjbTLtJnMI3fEbZyf4Tc6"
         self.user_input = ''
         self.response = ''
@@ -120,4 +120,4 @@ async def get_bot_response(request: Request):
     return {"bot_response": bot_response}
 
 if __name__ == "__main__":
-    uvicorn.run("backend:app", host='0.0.0.0', reload=True)
+    uvicorn.run("backend:app", reload=True)
