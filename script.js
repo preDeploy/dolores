@@ -339,7 +339,7 @@ messageInput.addEventListener('keyup', () => {
                 document.getElementById('userPic').setAttribute('style', `background-image: url("${profilePicUrl}")`);
                 const messageVal = messageInput.value;
                 addGeneratingMessage();
-                fetch('http://127.0.0.1:8000/get_response/', {
+                fetch('http://54.241.163.237:8000/get_response/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -369,7 +369,7 @@ messageInput.addEventListener('keyup', () => {
                     document.getElementById('userPic').setAttribute('style', `background-image: url("${profilePicUrl}")`);
                     const messageVal = messageInput.value;
                     addGeneratingMessage();
-                    fetch('http://127.0.0.1:8000/get_response/', {
+                    fetch('http://54.241.163.237:8000/get_response/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
