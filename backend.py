@@ -120,4 +120,4 @@ async def get_bot_response(request: Request):
     return {"bot_response": bot_response}
 
 if __name__ == "__main__":
-    uvicorn.run("backend:app", reload=True)
+    uvicorn.run("backend:app", host='0.0.0.0', reload=True)
