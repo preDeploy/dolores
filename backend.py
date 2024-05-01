@@ -5,17 +5,34 @@ import uvicorn
 import json
 from datetime import datetime
 import os
+import time
+import asyncio
 
 
 class Dolores():
     def __init__(self):
         self.OPENAI_API_KEY = ""
-        self.OPENAI_ASSISTANT_ID = ""
+        self.OPENAI_ASSISTANT_ID = "asst_1l9QjbTLtJnMI3fEbZyf4Tc6"
         self.context = {
             "user": '',
             "assistant": ''
         }
-        self.location = ''
+        self.user_input = ''
+        self.bot_response = ''
+        self.location = './context/'
+
+    def getFileName(self, user):
+        if user=='unknown':
+            contexts = os.listdir('./context/unknown/')
+            now = int(time.time())
+            filename = [int(file[:-5]) for file in contexts if now - int(file[:-5]) <= 1800 and file[:-4]=='json']
+            filename = sorted(filename)
+            reversed(filename)
+            if len(filename)>0:
+                return filename[0]
+            else:
+                return now
+        return int(datetime.today().strftime('%Y%m%d'))
 
     def assistant(self, user_input):
         client = OpenAI(api_key=self.OPENAI_API_KEY)
@@ -62,9 +79,10 @@ class Dolores():
         return response.choices[0].message.content
 
     def openJSON(self, user):
+        filename = self.getFileName(user)
         if not os.path.isdir(f"./context/{user}"):
             os.makedirs(f"./context/{user}")
-        self.location = f"./context/{user}/{datetime.today().strftime('%Y%m%d')}.json"
+        self.location = f"./context/{user}/{filename}.json"
         try:
             with open(self.location, 'r') as cFile:
                 self.context = json.load(cFile)
@@ -75,13 +93,17 @@ class Dolores():
         with open(self.location, 'w') as cFile:
             json.dump(self.context, cFile)
 
-    def chat(self, user_input, user):
+    async def chat(self, user_input, user):
+        self.user_input = user_input
         self.openJSON(user)
         response = self.assistant(user_input).replace("\n", "<br>")
-        self.context['user'] = self.generateContext(f"{self.context['user']}\n\n{user_input}", "user")
-        self.context['assistant'] = self.generateContext(f"{self.context['assistant']}\n\n{response}", "assistant")
-        self.saveJSON()
+        self.bot_response = response
         return response
+    
+    async def updateContext(self):       
+        self.context['user'] = self.generateContext(f"{self.context['user']}\n\n{self.user_input}", "user")
+        self.context['assistant'] = self.generateContext(f"{self.context['assistant']}\n\n{self.bot_response}", "assistant")
+        self.saveJSON()
 
 
 app = FastAPI()
@@ -105,9 +127,12 @@ async def get_bot_response(request: Request):
     data = await request.json()
     user_message = data["user_message"]
     user = data["user"]
-    bot_response = bot_responses.chat(user_message, user)
-    return {"bot_response": bot_response}
+    bot_response = await bot_responses.chat(user_message, user)
+    response = {"bot_response": bot_response}
+    asyncio.create_task(bot_responses.updateContext())
+    return response
+
 
 
 if __name__ == "__main__":
-    uvicorn.run("backend:app", host='0.0.0.0', reload=True)
+    uvicorn.run("backend:app", reload=True)
