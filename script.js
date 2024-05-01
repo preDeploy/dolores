@@ -24,49 +24,35 @@ function getCookie(name) {
         const cookieData = parts.pop().split(';').shift();
         const [username, firstName, lastName, email, profilePicUrl] = cookieData.split('|');
         return { username, firstName, lastName, email, profilePicUrl };
-    }
+    } 
+    // else {
+    //     const username = 'rajanpande';
+    //     const firstName = 'Rajan';
+    //     const lastName = 'Pande';
+    //     const email = 'panderajan1996@gmail.com';
+    //     const profilePicUrl = 'https://lh3.googleusercontent.com/a/ACg8ocLSpnnjCN1nbp0YmOax2v3KBzzedo_X9pxtXujLphgR_xqi9NuG7g=s288-c-no';
+    //     return { username, firstName, lastName, email, profilePicUrl };
+    // }
     return null;
 }
 
 function showUserPage() {
     document.getElementById("login-window").style.display = "none";
     document.getElementById("userPage").style.display = "flex";
-    document.getElementById("chat").removeAttribute('style');
     document.getElementById("form").removeAttribute('style');
 }
 
 function showLoginWindow() {
     document.getElementById("login-window").style.display = "flex";
-    document.getElementById("userPage").style.display = "none";
-    document.getElementById("chat").style.display = "none";
+    try {
+        document.getElementById("userPage").style.display = "none";
+    } catch {
+
+    }
     document.getElementById("download").style.display = "none";
     document.getElementById("share").style.display = "none";
 }
 
-function sendMessage(messageInput) {
-    if (messageInput.value != '') {
-        addUserMessage(messageInput.value);
-        const messageVal = messageInput.value;
-        addGeneratingMessage();
-        fetch('http://54.241.163.237:8000/get_response/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ user_message: messageVal })
-        })
-            .then(response => response.json())
-            .then(data => {
-                const botResponse = data.bot_response;
-                removeGeneratingMessage();
-                addBotMessage(botResponse);
-            })
-            .catch((error) => {
-                console.error('Error: ', error);
-            });
-        messageInput.value = '';
-    }
-}
 
 function addUserMessage(message) {
     const messageElement = document.createElement('div');
@@ -257,18 +243,19 @@ function setActiveButton(clickedButton) {
             // });
         } else if (clickedButton.id == 'user') {
             hideAll();
-            const { username, firstName, lastName, email, profilePicUrl } = getCookie('username');
-            if (!username) {
-                showLoginWindow();
-            } else {
+            const loginCookie = getCookie('username');
+            if (loginCookie != null) {                
                 const userPage = document.getElementById("userPage");
                 if (!userPage) {
+                    const { username, firstName, lastName, email, profilePicUrl } = loginCookie;
                     createUserPage(username, firstName, lastName, email, profilePicUrl);
                 } else {
                     userPage.setAttribute('style', 'display: flex;');
                 }
                 const loginWindow = document.getElementById("login-window");
                 loginWindow.setAttribute('style', 'display: none;');
+            } else {
+                showLoginWindow();
             }
             const chatButton = document.getElementById('chat');
             chatButton.removeAttribute('style');
@@ -284,15 +271,6 @@ function closeDisclaimer() {
     document.querySelector('.disclaimer').style.display = 'none';
 }
 
-function startApp() {
-    gapi.load('auth2', function () {
-        auth2 = gapi.auth2.init({
-            client_id: "699627421105-5b2u0uckdbqievn40vjto4l04ih7v4pq.apps.googleusercontent.com",
-            cookiepolicy: 'single_host_origin',
-        });
-        attachSignin(document.getElementById('customBtn'));
-    });
-}
 
 function createLoginCookie(username, firstName, lastName, email, profilePicUrl) {
     const expirationDate = new Date();
@@ -319,6 +297,7 @@ function attachSignin(element) {
 
 function createUserPage(username, firstName, lastName, email, profilePicUrl) {
     const userPageElement = document.createElement('div');
+    
     userPageElement.classList.add('userPage');
     userPageElement.id = 'userPage';
     userPageElement.innerHTML = `
@@ -349,15 +328,69 @@ function createUserPage(username, firstName, lastName, email, profilePicUrl) {
 
 buttons.forEach(button => button.addEventListener('click', () => setActiveButton(button)));
 
+const user_details = getCookie('username');
+let { username = 'unknown', firstName, lastName, email, profilePicUrl = "https://doloreschatbucket.s3.us-east-2.amazonaws.com/icons/users/user.png" } = user_details || {};
 messageInput.addEventListener('keyup', () => {
     const message = messageInput.value.trim();
     if (message) {
-        sendButton.addEventListener('click', () => {
-            sendMessage(messageInput);
+        sendButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            if (messageInput.value != '') {
+                addUserMessage(messageInput.value);
+                document.getElementById('userPic').setAttribute('style', `background-image: url("${profilePicUrl}")`);
+                const messageVal = messageInput.value;
+                addGeneratingMessage();
+                fetch('http://127.0.0.1:8000/get_response/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_message: messageVal,
+                        user: username
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        const botResponse = data.bot_response;
+                        removeGeneratingMessage();
+                        addBotMessage(botResponse);
+                    })
+                    .catch((error) => {
+                        console.error('Error: ', error);
+                    });
+                // messageInput.value = '';
+            }
         });
         messageInput.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
-                sendMessage(messageInput);
+                // event.preventDefault();
+                if (messageInput.value != '') {
+                    addUserMessage(messageInput.value);
+                    document.getElementById('userPic').setAttribute('style', `background-image: url("${profilePicUrl}")`);
+                    const messageVal = messageInput.value;
+                    addGeneratingMessage();
+                    fetch('http://127.0.0.1:8000/get_response/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            user_message: messageVal,
+                            user: username
+                        })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            const botResponse = data.bot_response;
+                            removeGeneratingMessage();
+                            addBotMessage(botResponse);
+                        })
+                        .catch((error) => {
+                            console.error('Error: ', error);
+                        });
+                    messageInput.value = '';
+                }
             }
         });
     }

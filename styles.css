@@ -45,7 +45,7 @@ p {
   height: 32px;
   width: 32px;
   border-radius: 16px;
-  background-image: url("https://doloreschatbucket.s3.us-east-2.amazonaws.com/icons/users/user.png");
+  /* background-image: url("https://doloreschatbucket.s3.us-east-2.amazonaws.com/icons/users/user.png"); */
   background-repeat: no-repeat;
   background-size: cover;
 }

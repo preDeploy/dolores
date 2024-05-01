@@ -9,6 +9,17 @@
     <title>Dolores | JustiGuide</title>
     <link rel="stylesheet" href="styles.css">    
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+      function startApp() {
+          gapi.load('auth2', function () {
+              auth2 = gapi.auth2.init({
+                  client_id: "699627421105-5b2u0uckdbqievn40vjto4l04ih7v4pq.apps.googleusercontent.com",
+                  cookiepolicy: 'single_host_origin',
+              });
+              attachSignin(document.getElementById('customBtn'));
+          });
+      }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&display=swap"
@@ -22,12 +33,12 @@
         <a class="button active" id="user" onclick="setActiveButton(this)">
             <svg class="button-icon user"></svg>
         </a>
-        <a class="button" id="chat" style="display: none;" onclick="setActiveButton(this)">
+        <a class="button" id="chat" onclick="setActiveButton(this)">
             <svg class="button-icon chat"></svg>
         </a>
-        <!-- <a class="button" id="form" style="display: none;" onclick="setActiveButton(this)">
+        <a class="button" id="form" style="display: none;" onclick="setActiveButton(this)">
             <svg class="button-icon form"></svg>
-        </a> -->
+        </a>
     </div>
     <div class="bottom-container">
         <a id="download" class="button" style="display: none;" onclick="setActiveButton(this)">
@@ -42,7 +53,7 @@
     </div>
     <div class="chat-bar-container">
         <input type="text" id="user-input" placeholder="Enter your message">
-        <a class="chat-buttons" id="send" onclick="sendMessage()">
+        <a class="chat-buttons" id="send">
             <svg class="chat-icons send"></svg>
         </a>
     </div>
@@ -158,14 +169,13 @@
     <script src="script.js"></script>
     <script>
         const loggedInUser = getCookie('username');
-        if (loggedInUser) {
+        if (loggedInUser != null) {
             const { username, firstName, lastName, email, profilePicUrl } = loggedInUser;
             createUserPage(username, firstName, lastName, email, profilePicUrl);
             showUserPage();
-        } else {
-            
+        } else {     
+            showLoginWindow();       
             startApp();
-            document.getElementById("login-window").setAttribute("style", "display: flex");
         }
     </script>
 </body>
