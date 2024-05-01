@@ -25,14 +25,14 @@ function getCookie(name) {
         const [username, firstName, lastName, email, profilePicUrl] = cookieData.split('|');
         return { username, firstName, lastName, email, profilePicUrl };
     } 
-    // else {
-    //     const username = 'rajanpande';
-    //     const firstName = 'Rajan';
-    //     const lastName = 'Pande';
-    //     const email = 'panderajan1996@gmail.com';
-    //     const profilePicUrl = 'https://lh3.googleusercontent.com/a/ACg8ocLSpnnjCN1nbp0YmOax2v3KBzzedo_X9pxtXujLphgR_xqi9NuG7g=s288-c-no';
-    //     return { username, firstName, lastName, email, profilePicUrl };
-    // }
+    else {
+        const username = 'rajanpande';
+        const firstName = 'Rajan';
+        const lastName = 'Pande';
+        const email = 'panderajan1996@gmail.com';
+        const profilePicUrl = 'https://lh3.googleusercontent.com/a/ACg8ocLSpnnjCN1nbp0YmOax2v3KBzzedo_X9pxtXujLphgR_xqi9NuG7g=s288-c-no';
+        return { username, firstName, lastName, email, profilePicUrl };
+    }
     return null;
 }
 
@@ -296,8 +296,7 @@ function attachSignin(element) {
 }
 
 function createUserPage(username, firstName, lastName, email, profilePicUrl) {
-    const userPageElement = document.createElement('div');
-    
+    const userPageElement = document.createElement('div');    
     userPageElement.classList.add('userPage');
     userPageElement.id = 'userPage';
     userPageElement.innerHTML = `
@@ -359,7 +358,7 @@ messageInput.addEventListener('keyup', () => {
                     .catch((error) => {
                         console.error('Error: ', error);
                     });
-                // messageInput.value = '';
+                messageInput.value = '';
             }
         });
         messageInput.addEventListener('keydown', (event) => {
