@@ -25,14 +25,14 @@ function getCookie(name) {
         const [username, firstName, lastName, email, profilePicUrl] = cookieData.split('|');
         return { username, firstName, lastName, email, profilePicUrl };
     } 
-    else {
-        const username = 'rajanpande';
-        const firstName = 'Rajan';
-        const lastName = 'Pande';
-        const email = 'panderajan1996@gmail.com';
-        const profilePicUrl = 'https://lh3.googleusercontent.com/a/ACg8ocLSpnnjCN1nbp0YmOax2v3KBzzedo_X9pxtXujLphgR_xqi9NuG7g=s288-c-no';
-        return { username, firstName, lastName, email, profilePicUrl };
-    }
+    // else {
+    //     const username = 'rajanpande';
+    //     const firstName = 'Rajan';
+    //     const lastName = 'Pande';
+    //     const email = 'panderajan1996@gmail.com';
+    //     const profilePicUrl = 'https://lh3.googleusercontent.com/a/ACg8ocLSpnnjCN1nbp0YmOax2v3KBzzedo_X9pxtXujLphgR_xqi9NuG7g=s288-c-no';
+    //     return { username, firstName, lastName, email, profilePicUrl };
+    // }
     return null;
 }
 
