@@ -15,7 +15,7 @@ p {
 
 .logo {
   width: clamp(144px, 10vw, 576px);
-  height: clamp(29.59px, 2.05vw, 118.35px);
+  height: clamp(30px, 2.05vw, 118.35px);
   top: 40px;
   left: 50vw;
   transform: translateX(-50%);
@@ -545,7 +545,7 @@ p [id="diffAdd"] {
   justify-content: center;
   background-color: #fff;
   padding: 20px;
-  min-width: 400px; /* Minimum width to prevent shrinking too much */
+  min-width: 250px;; /* Minimum width to prevent shrinking too much */
   /*min-height: 300px;  Minimum height to prevent shrinking too much */
   max-width: calc(100vw - 40px); /* Maximum width with 20px padding */
   max-height: calc(100vh - 40px); /* Maximum height with 20px padding */
@@ -562,7 +562,7 @@ p [id="diffAdd"] {
 
 .user-info,
 .title {
-  display: flex;
+  display: block;
   align-items: center;
 }
 
@@ -577,14 +577,15 @@ p [id="diffAdd"] {
 }
 
 .data-text.value {
-  display: flex;
+  display: block;
   background-color: #afb1b44d;
   padding-top: 2px;
   padding-bottom: 2px;
   padding-left: 5px;
   padding-right: 5px;
   border-radius: 7px;
-  color: rgba(44, 41, 41, 0.582)
+  color: rgba(44, 41, 41, 0.582);
+  width: fit-content;
 }
 
 .profile-pic {
@@ -676,7 +677,7 @@ p [id="diffAdd"] {
   align-items: center;
   justify-content: center;
   background-color: #fff;
-  min-width: 400px; /* Minimum width to prevent shrinking too much */
+  min-width: 250px; /* Minimum width to prevent shrinking too much */
   min-height: auto; /* Minimum height to prevent shrinking too much */
   max-width: calc(100vw - 40px); /* Maximum width with 20px padding */
   max-height: calc(100vh - 40px); /* Maximum height with 20px padding */
@@ -821,14 +822,33 @@ span.buttonText {
   font-weight: bold;
 }
 
-@media (max-width: 750px){
+@media (max-width: 500px){
   .message-bubble {
-    max-width: min(85vw, 250px);
+    max-width: calc(min(85vw, 250px));
   }
+
+  .chat-container{
+    min-width: calc(min(85vw, 350px));
+  }
+
   .chat-bar-container {
-    min-width: calc(max(85vw, 350px));
+    min-width: calc(min(85vw, 350px));
   }
   p[class="footerClass"] {
-    font-size: 10px;
+    font-size: 2.5vw;
   }
+  .side-container{
+    top: 18px;
+    left: 18px;
+  }
+
+  .logo {
+    height: 50px;
+    width: 50px;
+    background-image: url("https://doloreschatbucket.s3.us-east-2.amazonaws.com/icons/logo/favicon.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    cursor: pointer;
+  }
+  
 }
