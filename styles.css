@@ -54,11 +54,15 @@ p {
 .chat-container {
   position: absolute;
   top: 10vh;
-  left: 25vw;
-  right: 25vw;
+  transform: translateX(-50%);
+  left: 50%;
+  min-width: 400px;
+  width: 50vw;
   bottom: 10vh;
   max-height: 80vh;
 }
+
+
 
 .chat-container.active {
   display: flex;
@@ -82,6 +86,7 @@ p {
   flex-direction: column;
   gap: 10px;
   overflow-wrap: break-word;
+  
 }
 
 .user-message,
@@ -118,6 +123,7 @@ p {
 }
 
 .message-bubble {
+  width: auto;
   max-width: 35vw;
   background-color: #fff;
   padding: 15px;
@@ -127,6 +133,7 @@ p {
   font-weight: thick;
   font-size: 15px;
 }
+
 
 
 
@@ -188,6 +195,7 @@ p {
 }
 
 .side-container {
+  z-index: 1;
   position: fixed;
   top: 32px;
   left: 32px;
@@ -218,9 +226,11 @@ p {
 
 .chat-bar-container {
   font-family: 'Nunito', sans-serif;
-  z-index: 0;
+  z-index: 2;
   bottom: 30px;
-  right: 25vw;
+  width: 50vw;
+  transform: translateX(-50%);
+  left: 50%;
   position: fixed;
   display: inline-flex;
   align-items: center;
@@ -281,7 +291,7 @@ p {
 }
 
 .chat-icons.add {
-  background-image: url("https://doloreschatbucket.s3.us-east-2.amazonaws.com/icons/chat/add.svg");
+  background-image: url("https://doloreschatbucket.s3.us-east-2.ama/zonaws.com/icons/chat/add.svg");
 }
 
 .chat-icons.mic {
@@ -535,12 +545,16 @@ p [id="diffAdd"] {
   justify-content: center;
   background-color: #fff;
   padding: 20px;
-  left: 33.333vw;
-  top: 33vh;
+  min-width: 400px; /* Minimum width to prevent shrinking too much */
+  /*min-height: 300px;  Minimum height to prevent shrinking too much */
+  max-width: calc(100vw - 40px); /* Maximum width with 20px padding */
+  max-height: calc(100vh - 40px); /* Maximum height with 20px padding */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center horizontally and vertically */
   border-radius: 24px;
-  width: fit-content;
-  height: auto;
 }
+
 
 .user-info {
   margin: 20px
@@ -601,22 +615,34 @@ p [id="diffAdd"] {
 .signout-modal {
   display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.3);
   text-align: center;
 }
 
+
 .signout-modal-content {
+  /* backdrop-filter: blur(1px); */
+  isolation: isolate;
   background-color: white;
-  margin: 15% auto;
+  position: fixed;
+  /* margin: 15% auto; */
   padding: 20px;
   border: 1px solid #ccc;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  outline: none;
+  border: none;
   border-radius: 20px;
   width: fit-content;
+  z-index: 2;
+
 }
 
 .confirm-signout,
@@ -641,6 +667,8 @@ p [id="diffAdd"] {
   margin-left: 10px;
 }
 
+
+
 .login-window {
   position: fixed;
   display: flex;
@@ -648,10 +676,13 @@ p [id="diffAdd"] {
   align-items: center;
   justify-content: center;
   background-color: #fff;
-  left: 33.333vw;
-  top: 33vh;
-  height: auto;
-  width: 33vw;
+  min-width: 400px; /* Minimum width to prevent shrinking too much */
+  min-height: auto; /* Minimum height to prevent shrinking too much */
+  max-width: calc(100vw - 40px); /* Maximum width with 20px padding */
+  max-height: calc(100vh - 40px); /* Maximum height with 20px padding */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center horizontally and vertically */
   border-radius: 24px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -689,14 +720,18 @@ p [id="diffAdd"] {
 
 p[class="footerClass"] {
   position: fixed;
-  font-size: small;
+  font-size: 12px;
   justify-content: center;
   vertical-align: center;
   text-align: center;
   bottom: 5px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 999;
+  z-index: 1;
+  white-space: nowrap;
+  /* overflow: hidden; */
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .disclaimer {
@@ -705,25 +740,27 @@ p[class="footerClass"] {
   top: 0;
   left: 0;
   z-index: 2;
-  background-color: rgba(0, 0, 0, 0.4);
-  width: 100%;
-  height: 100%;
-  backdrop-filter: blur(1px);
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 100vw;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 
 .disclaimerHead {
   font-size: x-large;
   padding-bottom: 10px;
 }
 
+
 .window {
   position: relative;
   background: #ffff;
   text-align: center;
-  width: 25%;
+  width: 400px;
+  max-width: calc(100vw - 40px);
   padding: 25px;
   border-radius: 10px;
 }
@@ -732,7 +769,7 @@ p[class="footerClass"] {
   position: absolute;
   top: 0px;
   right: 10px;
-  z-index: 2;
+  z-index: 0;
   cursor: pointer;
   font-size: 24px;
   color: #888;
@@ -740,9 +777,10 @@ p[class="footerClass"] {
 
 .footerClass {
   color: #444;
+  z-index: -1;
 }
 
-.footerClass:hover {
+a[class=footerClass]:hover {
   cursor: pointer;
 }
 
@@ -781,4 +819,16 @@ span.buttonText {
   padding-right: 24px;
   font-size: 14px;
   font-weight: bold;
+}
+
+@media (max-width: 750px){
+  .message-bubble {
+    max-width: min(85vw, 250px);
+  }
+  .chat-bar-container {
+    min-width: calc(max(85vw, 350px));
+  }
+  p[class="footerClass"] {
+    font-size: 10px;
+  }
 }

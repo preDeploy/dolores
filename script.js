@@ -19,12 +19,13 @@ const mailingAddressSection = document.getElementById('mailingAddress');
 
 function getCookie(name) {
     const value = `; ${document.cookie}`;
+//    console.log('here')
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) {
         const cookieData = parts.pop().split(';').shift();
         const [username, firstName, lastName, email, profilePicUrl] = cookieData.split('|');
         return { username, firstName, lastName, email, profilePicUrl };
-    } 
+    }
     // else {
     //     const username = 'rajanpande';
     //     const firstName = 'Rajan';
@@ -39,7 +40,7 @@ function getCookie(name) {
 function showUserPage() {
     document.getElementById("login-window").style.display = "none";
     document.getElementById("userPage").style.display = "flex";
-    document.getElementById("form").removeAttribute('style');
+//    document.getElementById("form").removeAttribute('style');
 }
 
 function showLoginWindow() {
@@ -54,12 +55,12 @@ function showLoginWindow() {
 }
 
 
-function addUserMessage(message) {
+function addUserMessage(message, profilePicUrl) {
     const messageElement = document.createElement('div');
     messageElement.classList.add('user-message');
     messageElement.innerHTML = `
     <div class="user-profile">
-      <svg class="user-avatar" id="userPic"></svg>
+      <svg class="user-avatar" id="userPic" style="background-image: url(${profilePicUrl})"></svg>
     </div>
     <div class="message-bubble">
       <p>${message}</p>
@@ -114,6 +115,7 @@ function removeGeneratingMessage() {
 
 function signOut() {
     document.getElementById('signout-modal').style.display = 'block';
+    document.getElementById('sides').style.zIndex = '0';
     document.cookie = "username=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
 }
 
@@ -123,11 +125,11 @@ function closeSignOutModal() {
 
 function confirmSignOut() {
     document.getElementById("userPage").setAttribute("style", "display: none");
-    alert("Successfully signed out!");
     closeSignOutModal();
     document.getElementById("login-window").setAttribute("style", "display: flex");
     startApp();
     document.getElementById("form").style.display = "none";
+    location.reload();
 }
 
 function hideAll() {
@@ -283,7 +285,7 @@ function attachSignin(element) {
     auth2.attachClickHandler(element, {},
         function (googleUser) {
             const profile = googleUser.getBasicProfile();
-            const username = profile.getName();
+            const username = profile.getId();
             const firstName = profile.getGivenName();
             const lastName = profile.getFamilyName();
             const email = profile.getEmail();
@@ -292,6 +294,23 @@ function attachSignin(element) {
             document.getElementById("login-window").setAttribute("style", "display: none");
             createUserPage(username, firstName, lastName, email, profilePicUrl);
             document.getElementById("userPage").setAttribute("style", "display: flex");
+            fetch('https://justiguide.org/save_user/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ firstName, lastName, email })
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('User Added');
+                } else {
+                    console.log('Error adding user: ', response.status);
+                }
+            })
+            .catch(error => {
+                console.log('Error: ', error)
+            })
         });
 }
 
@@ -335,11 +354,11 @@ messageInput.addEventListener('keyup', () => {
         sendButton.addEventListener('click', (event) => {
             event.preventDefault();
             if (messageInput.value != '') {
-                addUserMessage(messageInput.value);
-                document.getElementById('userPic').setAttribute('style', `background-image: url("${profilePicUrl}")`);
+                addUserMessage(messageInput.value, profilePicUrl);
+                // document.getElementById('userPic').setAttribute('style', `background-image: url("${profilePicUrl}")`);
                 const messageVal = messageInput.value;
                 addGeneratingMessage();
-                fetch('http://54.241.163.237:8000/get_response/', {
+                fetch('https://justiguide.org/get_response/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -363,13 +382,12 @@ messageInput.addEventListener('keyup', () => {
         });
         messageInput.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
-                // event.preventDefault();
                 if (messageInput.value != '') {
-                    addUserMessage(messageInput.value);
-                    document.getElementById('userPic').setAttribute('style', `background-image: url("${profilePicUrl}")`);
+                    addUserMessage(messageInput.value, profilePicUrl);
+                    // document.getElementById('userPic').setAttribute('style', );
                     const messageVal = messageInput.value;
                     addGeneratingMessage();
-                    fetch('http://54.241.163.237:8000/get_response/', {
+                    fetch('https://justiguide.org/get_response/', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
